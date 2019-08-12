@@ -1,19 +1,20 @@
 import React, { Component, Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { HistoryStore } from 'stores/history-store';
+import { History as HistoryItems } from 'connections/history-provider';
 
 export type HistoryProps = Readonly<{
-    historyStore: HistoryStore;
+    items: HistoryItems;
 }>;
 
 @observer
 export class History extends Component<HistoryProps> {
     render() {
-        const { historyStore } = this.props;
+        const { items } = this.props;
         return (
-            historyStore.items.map((item) => {
+            // key={index} can be replaced to something better
+            items.map((item, index) => {
                 return (
-                    <Fragment>
+                    <Fragment key={index}>
                         <div>
                             {item.username}
                         </div>

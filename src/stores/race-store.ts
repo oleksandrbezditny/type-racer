@@ -1,4 +1,4 @@
-import { computed, observable } from 'mobx';
+import { action, computed, observable, runInAction } from 'mobx';
 import { emptyString, space } from 'utils';
 import { defaultTextOptions, TextProvider } from 'connections/text';
 
@@ -23,14 +23,12 @@ export class RaceStore {
     ) {
         this._textProvider.getTexts({
             ...defaultTextOptions,
-            sentences: 5
+            sentences: parseInt((Math.random() * 20).toFixed())
         }).then((text) => {
-            this._text = text.join(' ');
-            this._isInProgress = true;
-            this._startTime = Date.now();
+            this.initGameState(text.join(' '));
 
             setTimeout(
-                () => this._isInProgress = false,
+                () => runInAction(() => this._isInProgress = false),
                 this._duration * 1000 * 60
             );
         });
@@ -58,12 +56,12 @@ export class RaceStore {
 
     applyLetter = (word: string): void => {
         if (this.hasWrongRecords()) {
-            this._currentPosition++;
+            this.updateCurrentPosition(this._currentPosition + 1);
         } else if (this._text[this._lastCorrectPosition] === word) {
-            this._currentPosition++;
-            this._lastCorrectPosition++;
+            this.updateCurrentPosition(this._currentPosition + 1);
+            this.updateLastCorrectPosition(this._lastCorrectPosition + 1);
         } else {
-            this._currentPosition++;
+            this.updateCurrentPosition(this._currentPosition + 1);
         }
     }
 
@@ -72,10 +70,10 @@ export class RaceStore {
             return;
         }
         if (!this.hasWrongRecords()) {
-            this._currentPosition--;
-            this._lastCorrectPosition--;
+            this.updateCurrentPosition(this._currentPosition - 1);
+            this.updateLastCorrectPosition(this._lastCorrectPosition - 1);
         } else {
-            this._currentPosition--;
+            this.updateCurrentPosition(this._currentPosition - 1);
         }
     }
 
@@ -107,5 +105,22 @@ export class RaceStore {
 
     private hasWrongRecords(): boolean {
         return this._currentPosition !== this._lastCorrectPosition;
+    }
+
+    @action
+    private updateCurrentPosition(position: number): void {
+        this._currentPosition = position;
+    }
+
+    @action
+    private updateLastCorrectPosition(position: number): void {
+        this._lastCorrectPosition = position;
+    }
+
+    @action
+    private initGameState(text: string): void {
+        this._text = text;
+        this._isInProgress = true;
+        this._startTime = Date.now();
     }
 }

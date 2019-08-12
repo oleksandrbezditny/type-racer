@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { observable } from 'mobx';
+import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { isSomething } from 'utils';
 import { config } from 'config';
@@ -19,16 +19,17 @@ export class App extends Component {
     @observable.ref
     private _raceStore: RaceStore | null = null;
 
-    private _historyStore = new HistoryStore(
-        new HistoryProvider(
-            new Connection(config.historyConnection)
-        )
-    );
-
     private _loginStore = new LoginStore(
         new LoginProvider(
             new Connection(config.loginConnection)
         )
+    );
+
+    private _historyStore = new HistoryStore(
+        new HistoryProvider(
+            new Connection(config.historyConnection)
+        ),
+         this._loginStore
     );
 
     render() {
@@ -38,7 +39,8 @@ export class App extends Component {
                     <Fragment>
                         {isSomething(this._raceStore) && <RaceTracker raceStore={this._raceStore} onFinish={this.finishRace}/>}
                         {!isSomething(this._raceStore) && <input type="button" value="Start" onClick={this.startRace}/>}
-                        <History historyStore={this._historyStore}/>
+                        <History items={this._historyStore._history}/>
+                        <History items={this._historyStore.userHistory}/>
                     </Fragment>
                 )}
                 {!this._loginStore.isLoggedIn && <Login loginStore={this._loginStore}/>}
@@ -46,6 +48,7 @@ export class App extends Component {
         );
     }
 
+    @action
     private startRace = () => {
         this._raceStore = new RaceStore(
             new TextProvider(
@@ -55,6 +58,7 @@ export class App extends Component {
         );
     }
 
+    @action
     private finishRace = () => {
         this._historyStore.addNewRecord({
             // login info should exists in this case

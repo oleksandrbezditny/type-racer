@@ -13,8 +13,7 @@ export type TextOptions = Readonly<{
     type: TextType;
     StartWithLorem: Bit;
     format: Format;
-    paras?: number;
-    sentences?: number;
+    sentences: number;
 }>;
 
 type Text = ReadonlyArray<string>;

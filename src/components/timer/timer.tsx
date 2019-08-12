@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { observable } from 'mobx';
+import { action, observable, runInAction } from 'mobx';
 
 export type TimerProps = Readonly<{
     duration: number; //in minutes
@@ -9,28 +9,27 @@ export type TimerProps = Readonly<{
 @observer
 export class Timer extends Component<TimerProps> {
     @observable
-    private secondsRemaining: number = 0;
-
-    private intervalId: number;
+    private _secondsRemaining: number = 0;
+    private _intervalId: number;
 
     constructor(props: TimerProps) {
         super(props);
-        this.secondsRemaining = this.props.duration * 60;
 
-        this.intervalId = window.setInterval(
+        this.updateSeconds(this.props.duration * 60);
+        this._intervalId = window.setInterval(
             () => {
-                if(this.secondsRemaining === 0) {
-                    window.clearInterval(this.intervalId);
+                if(this._secondsRemaining === 0) {
+                    window.clearInterval(this._intervalId);
                     return;
                 }
-                this.secondsRemaining--;
+                this.updateSeconds(this._secondsRemaining - 1);
             },
             1000);
     }
 
     render() {
-        const minutes = Math.floor(this.secondsRemaining / 60);
-        var seconds = this.secondsRemaining - (minutes * 60);
+        const minutes = Math.floor(this._secondsRemaining / 60);
+        var seconds = this._secondsRemaining - (minutes * 60);
 
         return (
             <Fragment>
@@ -44,7 +43,12 @@ export class Timer extends Component<TimerProps> {
         )
     }
 
+    @action
+    private updateSeconds(seconds: number): void {
+        this._secondsRemaining = seconds;
+    }
+
     componentWillUnmount() {
-        window.clearInterval(this.intervalId);
+        window.clearInterval(this._intervalId);
     }
 }

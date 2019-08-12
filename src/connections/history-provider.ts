@@ -8,7 +8,9 @@ export type HistoryItem = Readonly<{
 export type History = Array<HistoryItem>;
 
 export class HistoryProvider {
-    constructor(private readonly _connection: Connection) {}
+    constructor(
+        private readonly _connection: Connection,
+    ) {}
 
     getHistory(): Promise<History> {
         return this._connection.request({})
