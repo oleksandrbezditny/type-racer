@@ -1,5 +1,5 @@
 import { action, computed, observable, runInAction } from 'mobx';
-import { emptyString, space } from 'utils';
+import { emptyString, random, space } from 'utils';
 import { defaultTextOptions, TextProvider } from 'connections';
 
 export class TypingPanelStore {
@@ -23,7 +23,7 @@ export class TypingPanelStore {
     ) {
         this._textProvider.getTexts({
             ...defaultTextOptions,
-            sentences: parseInt((Math.random() * 20).toFixed())
+            sentences: random(5, 15)
         }).then((text) => {
             this.initGameState(text.join(' '));
 
@@ -63,7 +63,7 @@ export class TypingPanelStore {
         } else {
             this.updateCurrentPosition(this._currentPosition + 1);
         }
-    }
+    };
 
     goBack = (): void => {
         if (this.isInStartingPosition()) {
@@ -75,7 +75,7 @@ export class TypingPanelStore {
         } else {
             this.updateCurrentPosition(this._currentPosition - 1);
         }
-    }
+    };
 
     @computed
     get WPM(): number {
