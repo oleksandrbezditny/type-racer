@@ -1,34 +1,38 @@
-import { computed, observable, runInAction } from 'mobx';
+import { action, computed, observable, runInAction } from 'mobx';
+import { isSomething } from 'utils';
 import { HistoryItem, HistoryProvider } from 'connections/history-provider';
 import { History } from 'connections/history-provider';
 import { LoginStore } from './login-store';
 
 export class HistoryStore {
     @observable
-    _history: History = [];
+    private _history: History | null = null;
 
     constructor(
         private readonly _historyProvider: HistoryProvider,
         private readonly _loginStore: LoginStore
     ) {
         this._historyProvider.getHistory()
-            .then((history) => runInAction(()=> this._history = history));
+            .then((history) => runInAction(() => this._history = history));
     }
 
+    @action
     addNewRecord(item: HistoryItem): void {
-        this._history.push(item);
+        if(isSomething(this._history)) {
+            this._history.push(item);
 
-        this._historyProvider.update(this._history);
+            this._historyProvider.update(this._history);
+        }
     }
 
-    get history(): History {
+    get history(): History | null {
         return this._history;
     }
 
     @computed
     get userHistory(): History {
         const { username, isGuest } = this._loginStore.loginInfo!;
-        return !isGuest
+        return !isGuest && isSomething(this._history)
             ? this._history.filter((item) => item.username === username)
             : [];
     }

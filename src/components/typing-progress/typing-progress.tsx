@@ -1,14 +1,14 @@
 import React, { PureComponent, Fragment } from 'react';
 import { emptyString } from 'utils';
-import styles from 'components/race-text/race-text.module.scss';
+import styles from 'components/typing-progress/typing-progress.module.scss';
 
-export type RaceStatusInfoProps = Readonly<{
+export type TypingProgressProps = Readonly<{
     currentPosition: number;
     lastCorrectPosition: number;
     text: string;
 }>;
 
-export class RaceText extends PureComponent<RaceStatusInfoProps> {
+export class TypingProgress extends PureComponent<TypingProgressProps> {
     render() {
         const { text, lastCorrectPosition, currentPosition } = this.props;
         const correctText = text.substring(0, lastCorrectPosition);

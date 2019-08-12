@@ -2,7 +2,7 @@ import { action, computed, observable, runInAction } from 'mobx';
 import { emptyString, space } from 'utils';
 import { defaultTextOptions, TextProvider } from 'connections/text';
 
-export class RaceStore {
+export class TypingPanelStore {
     @observable.ref
     private _text: string = emptyString;
 

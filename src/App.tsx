@@ -5,19 +5,19 @@ import { isSomething } from 'utils';
 import { config } from 'config';
 import { TextProvider } from 'connections/text';
 import { Connection } from 'connections/connection';
-import { RaceTracker } from 'components/race-tracker/race-tracker';
+import { TypingPanel } from 'components/typing-panel/typing-panel';
 import { History } from 'components/history/history';
-import { RaceStore } from 'stores/race-store';
+import { Login } from 'components/login/login';
+import { Loader } from 'components/loader/loader';
+import { TypingPanelStore } from 'stores/typing-panel-store';
 import { HistoryStore } from 'stores/history-store';
 import { LoginStore } from 'stores/login-store';
 import { HistoryProvider } from 'connections/history-provider';
 import { LoginProvider } from 'connections/login-provider';
-import { Login } from 'components/login/login';
-
 @observer
 export class App extends Component {
     @observable.ref
-    private _raceStore: RaceStore | null = null;
+    private _typingPanelStore: TypingPanelStore | null = null;
 
     private _loginStore = new LoginStore(
         new LoginProvider(
@@ -37,10 +37,16 @@ export class App extends Component {
             <div className="App">
                 {this._loginStore.isLoggedIn && (
                     <Fragment>
-                        {isSomething(this._raceStore) && <RaceTracker raceStore={this._raceStore} onFinish={this.finishRace}/>}
-                        {!isSomething(this._raceStore) && <input type="button" value="Start" onClick={this.startRace}/>}
-                        <History items={this._historyStore._history}/>
-                        <History items={this._historyStore.userHistory}/>
+                        {isSomething(this._typingPanelStore) && (
+                            <TypingPanel typingPanelStore={this._typingPanelStore} onFinish={this.finish}/>
+                        )}
+                        {!isSomething(this._typingPanelStore) && (
+                            <input type="button" value="Start" onClick={this.start}/>
+                        )}
+                        <Loader loading={!isSomething(this._historyStore.history)}>
+                            <History items={this._historyStore.history!}/>
+                            <History items={this._historyStore.userHistory!}/>
+                        </Loader>
                     </Fragment>
                 )}
                 {!this._loginStore.isLoggedIn && <Login loginStore={this._loginStore}/>}
@@ -49,8 +55,8 @@ export class App extends Component {
     }
 
     @action
-    private startRace = () => {
-        this._raceStore = new RaceStore(
+    private start = () => {
+        this._typingPanelStore = new TypingPanelStore(
             new TextProvider(
                 new Connection(config.textProviderConnection)
             ),
@@ -59,14 +65,14 @@ export class App extends Component {
     }
 
     @action
-    private finishRace = () => {
+    private finish = () => {
         this._historyStore.addNewRecord({
             // login info should exists in this case
             username: this._loginStore!.loginInfo!.username,
-            // race store should exists in this case
-            wpm: this._raceStore!.WPM
+            // typing panel store should exists in this case
+            wpm: this._typingPanelStore!.WPM
         });
-        this._raceStore = null;
+        this._typingPanelStore = null;
     }
 }
 

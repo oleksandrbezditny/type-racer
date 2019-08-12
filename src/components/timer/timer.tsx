@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { action, observable, runInAction } from 'mobx';
+import { action, observable } from 'mobx';
 
 export type TimerProps = Readonly<{
     duration: number; //in minutes
