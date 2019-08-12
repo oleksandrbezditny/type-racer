@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { History as HistoryItems } from 'connections/history-provider';
+import { History as HistoryItems } from 'connections';
 
 export type HistoryProps = Readonly<{
     items: HistoryItems;

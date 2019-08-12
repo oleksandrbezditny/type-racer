@@ -3,17 +3,10 @@ import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { isSomething } from 'utils';
 import { config } from 'config';
-import { TextProvider } from 'connections/text';
-import { Connection } from 'connections/connection';
-import { TypingPanel } from 'components/typing-panel/typing-panel';
-import { History } from 'components/history/history';
-import { Login } from 'components/login/login';
-import { Loader } from 'components/loader/loader';
-import { TypingPanelStore } from 'stores/typing-panel-store';
-import { HistoryStore } from 'stores/history-store';
-import { LoginStore } from 'stores/login-store';
-import { HistoryProvider } from 'connections/history-provider';
-import { LoginProvider } from 'connections/login-provider';
+import { TextProvider, Connection, HistoryProvider, LoginProvider } from 'connections';
+import { TypingPanel, History, Login, Loader } from 'components';
+import { TypingPanelStore, HistoryStore, LoginStore } from 'stores';
+
 @observer
 export class App extends Component {
     @observable.ref

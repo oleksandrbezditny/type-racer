@@ -1,7 +1,6 @@
 import { action, computed, observable, runInAction } from 'mobx';
 import { isSomething } from 'utils';
-import { HistoryItem, HistoryProvider } from 'connections/history-provider';
-import { History } from 'connections/history-provider';
+import { HistoryItem, HistoryProvider, History } from 'connections';
 import { LoginStore } from './login-store';
 
 export class HistoryStore {

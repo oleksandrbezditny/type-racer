@@ -2,8 +2,7 @@ import React, { Component, FormEvent, Fragment } from 'react';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { isSomething } from 'utils';
-import { LoginStore } from 'stores/login-store';
-
+import { LoginStore } from 'stores';
 
 export type LoginProps = Readonly<{
     loginStore: LoginStore;

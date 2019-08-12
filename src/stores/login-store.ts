@@ -1,5 +1,5 @@
 import { action, observable } from 'mobx';
-import { LoginCredentials, LoginProvider } from 'connections/login-provider';
+import { LoginCredentials, LoginProvider } from 'connections';
 
 export type LoginInfo = Readonly<{
    username: string;

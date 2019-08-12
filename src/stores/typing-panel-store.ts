@@ -1,6 +1,6 @@
 import { action, computed, observable, runInAction } from 'mobx';
 import { emptyString, space } from 'utils';
-import { defaultTextOptions, TextProvider } from 'connections/text';
+import { defaultTextOptions, TextProvider } from 'connections';
 
 export class TypingPanelStore {
     @observable.ref

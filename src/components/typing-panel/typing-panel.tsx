@@ -1,11 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import { observer } from 'mobx-react';
-import { TypingPanelStore } from 'stores/typing-panel-store';
-import { TypingProgress } from 'components/typing-progress/typing-progress';
-import { ProgressInfo } from 'components/progress-info/progress-info';
-import { TextInput } from 'components/text-input/text-input';
-import { Timer } from 'components/timer/timer';
-import { Loader } from 'components/loader/loader';
+import { TypingPanelStore } from 'stores';
+import { TypingProgress, ProgressInfo, TextInput, Timer, Loader } from 'components';
 
 export type TypingPanelProps = Readonly<{
     typingPanelStore: TypingPanelStore;
