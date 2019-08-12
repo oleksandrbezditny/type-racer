@@ -1,13 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import { emptyString } from 'utils';
-import styles from 'components/race-status-info.module.scss';
+import styles from 'components/race-text/race-text.module.scss';
 
 export type RaceStatusInfoProps = Readonly<{
-    currentPosition: number,
-    lastCorrectPosition: number,
-    text: string
+    currentPosition: number;
+    lastCorrectPosition: number;
+    text: string;
 }>;
-
 
 export class RaceText extends PureComponent<RaceStatusInfoProps> {
     render() {

@@ -2,17 +2,17 @@ import React, { KeyboardEvent, FocusEvent, PureComponent } from 'react';
 import { isSomething } from 'utils';
 
 export type TextInputProps = Readonly<{
-    onUserType: (letter: string) => void,
-    removeLetter: () => void
+    onUserType: (letter: string) => void;
+    removeLetter: () => void;
 }>;
 
 export class TextInput extends PureComponent<TextInputProps> {
-    private _input: HTMLInputElement | null = null;
+    private _inputRef: HTMLInputElement | null = null;
 
     render() {
         return (
             <input
-                ref={(ref) => this._input = ref}
+                ref={(ref) => this._inputRef = ref}
                 type="text"
                 autoCorrect="off"
                 autoCapitalize="off"
@@ -43,7 +43,8 @@ export class TextInput extends PureComponent<TextInputProps> {
     }
 
     private moveToTheEnd = (e: FocusEvent) => {
-        const input = this._input!;
+        // input should exists in this case
+        const input = this._inputRef!;
         const text = input.value;
         input.value = '';
         input.value = text;

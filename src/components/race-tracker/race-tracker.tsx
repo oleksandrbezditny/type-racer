@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import { observer } from 'mobx-react';
 import { RaceStore } from 'stores/race-store';
-import { RaceText } from 'components/race-status-info/race-text';
+import { RaceText } from 'components/race-text/race-text';
 import { ProgressInfo } from 'components/progress-info/progress-info';
 import { TextInput } from 'components/text-input/text-input';
 import { Timer } from 'components/timer/timer';
@@ -14,7 +14,7 @@ export type RaceTrackerProps = Readonly<{
 @observer
 export class RaceTracker extends Component<RaceTrackerProps> {
     render() {
-        const {raceStore, onFinish} = this.props;
+        const { raceStore } = this.props;
         return (
             <Fragment>
                 {raceStore.isInProgress && (
@@ -36,7 +36,7 @@ export class RaceTracker extends Component<RaceTrackerProps> {
                     {raceStore.isInProgress && <Timer duration={raceStore.duration}/>}
                 </div>
                 <div>
-                    <input type="button" onClick={onFinish} value="Finish"/>
+                    <input type="button" onClick={this.props.onFinish} value="Finish"/>
                 </div>
             </Fragment>
         )
