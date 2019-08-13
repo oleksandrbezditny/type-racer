@@ -16,7 +16,7 @@ export type TextOptions = Readonly<{
     sentences: number;
 }>;
 
-type Text = ReadonlyArray<string>;
+export type Text = ReadonlyArray<string>;
 
 export const defaultTextOptions: TextOptions = {
     type: TextType.AllMeat,
@@ -25,7 +25,11 @@ export const defaultTextOptions: TextOptions = {
     sentences: 10
 };
 
-export class TextProvider {
+export interface ITextProvider {
+    getTexts(options: TextOptions): Promise<Text>;
+}
+
+export class TextProvider implements ITextProvider {
     constructor(private readonly _connection: Connection) {}
 
     getTexts(options: TextOptions = defaultTextOptions): Promise<Text> {

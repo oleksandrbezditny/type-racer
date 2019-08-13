@@ -7,16 +7,19 @@ export type LoginCredentials = Readonly<{
 
 type Logins = ReadonlyArray<LoginCredentials>;
 
-export class LoginProvider {
-    constructor(private readonly _connection: Connection) {
-    }
+export interface ILoginProvider {
+    login(credentials: LoginCredentials): Promise<boolean>,
+}
+
+export class LoginProvider implements ILoginProvider {
+    constructor(private readonly _connection: Connection) {}
 
     login(credentials: LoginCredentials): Promise<boolean> {
         return this._connection.request({})
             .then((response) => this.isSuccessResponse(response, credentials))
     }
 
-    isSuccessResponse(response: RequestResponse, credentials: LoginCredentials): boolean {
+    private isSuccessResponse(response: RequestResponse, credentials: LoginCredentials): boolean {
         if(LoginProvider.isLoginInfo(response)) {
             return response.some(({ username, password }) =>
                 username === credentials.username && password === credentials.password

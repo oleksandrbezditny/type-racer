@@ -1,6 +1,6 @@
 import { action, computed, observable, runInAction } from 'mobx';
 import { isSomething } from 'utils';
-import { HistoryItem, HistoryProvider, History } from 'connections';
+import { HistoryItem, IHistoryProvider, History } from 'connections';
 import { LoginStore } from './login-store';
 
 export class HistoryStore {
@@ -8,7 +8,7 @@ export class HistoryStore {
     private _history: History | null = null;
 
     constructor(
-        private readonly _historyProvider: HistoryProvider,
+        private readonly _historyProvider: IHistoryProvider,
         private readonly _loginStore: LoginStore
     ) {
         this._historyProvider.getHistory()

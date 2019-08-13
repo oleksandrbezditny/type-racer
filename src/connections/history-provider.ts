@@ -7,7 +7,12 @@ export type HistoryItem = Readonly<{
 
 export type History = Array<HistoryItem>;
 
-export class HistoryProvider {
+export interface IHistoryProvider {
+    getHistory(): Promise<History>;
+    update(history: History): void;
+}
+
+export class HistoryProvider implements IHistoryProvider {
     constructor(
         private readonly _connection: Connection,
     ) {}
@@ -17,7 +22,7 @@ export class HistoryProvider {
             .then((response) => HistoryProvider.isHistory(response) ? response : []);
     }
 
-    update(history: History) {
+    update(history: History): void {
         this._connection.update(history);
     }
 

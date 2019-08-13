@@ -3,7 +3,7 @@ import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { isSomething } from 'utils';
 import { config } from 'config';
-import { TextProvider, Connection, HistoryProvider, LoginProvider } from 'connections';
+import { Connection, HistoryProvider, LoginProvider, TextProvider } from 'connections';
 import { TypingPanel, History, Login, Loader } from 'components';
 import { TypingPanelStore, HistoryStore, LoginStore } from 'stores';
 import styles from './app.module.scss';

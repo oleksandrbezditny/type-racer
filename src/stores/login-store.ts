@@ -1,5 +1,5 @@
 import { action, observable } from 'mobx';
-import { LoginCredentials, LoginProvider } from 'connections';
+import { LoginCredentials, ILoginProvider } from 'connections';
 
 export type LoginInfo = Readonly<{
    username: string;
@@ -13,18 +13,22 @@ export class LoginStore {
     @observable.ref
     private _loginInfo: LoginInfo | null = null;
 
-    constructor(private readonly _loginProvider: LoginProvider) {}
+    constructor(private readonly _loginProvider: ILoginProvider) {}
 
-    login(credentials: LoginCredentials): void {
-        this._loginProvider.login(credentials)
-            .then((isLogged) => {
-                if(isLogged) {
-                    this.fillLoginInfo({
-                        username: credentials.username,
-                        isGuest: false
-                    });
-                }
-            });
+    login(credentials: LoginCredentials): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            this._loginProvider.login(credentials)
+                .then((isLogged) => {
+                    if(isLogged) {
+                        this.fillLoginInfo({
+                            username: credentials.username,
+                            isGuest: false
+                        });
+                    }
+                    resolve(isLogged);
+                });
+        });
+
     }
 
     loginAsGuest(): void {

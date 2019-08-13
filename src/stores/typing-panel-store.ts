@@ -1,6 +1,6 @@
 import { action, computed, observable, runInAction } from 'mobx';
 import { emptyString, random, space } from 'utils';
-import { defaultTextOptions, TextProvider } from 'connections';
+import { defaultTextOptions, ITextProvider } from 'connections';
 
 export class TypingPanelStore {
     @observable.ref
@@ -18,7 +18,7 @@ export class TypingPanelStore {
     private _startTime: number = Date.now();
 
     constructor(
-        private readonly _textProvider: TextProvider,
+        private readonly _textProvider: ITextProvider,
         private readonly _duration: number // in minutes.
     ) {
         this._textProvider.getTexts({
