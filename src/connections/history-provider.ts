@@ -2,7 +2,7 @@ import { Connection, RequestResponse } from './connection';
 
 export type HistoryItem = Readonly<{
     username: string;
-    wpm: number;
+    wpm: string;
 }>;
 
 export type History = Array<HistoryItem>;

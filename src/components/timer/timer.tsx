@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { action, observable } from 'mobx';
 
@@ -32,14 +32,14 @@ export class Timer extends Component<TimerProps> {
         var seconds = this._secondsRemaining - (minutes * 60);
 
         return (
-            <Fragment>
+            <div>
                 <div>
                     Minutes: {minutes}
                 </div>
                 <div>
                     Seconds: {seconds}
                 </div>
-            </Fragment>
+            </div>
         )
     }
 

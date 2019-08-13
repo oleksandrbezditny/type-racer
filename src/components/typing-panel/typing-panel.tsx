@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { observer } from 'mobx-react';
 import { TypingPanelStore } from 'stores';
 import { TypingProgress, ProgressInfo, TextInput, Timer, Loader } from 'components';
+import styles from './typing-panel.module.scss';
 
 export type TypingPanelProps = Readonly<{
     typingPanelStore: TypingPanelStore;
@@ -15,6 +16,11 @@ export class TypingPanel extends Component<TypingPanelProps> {
         return (
             <Fragment>
                 <Loader loading={!typingPanelStore.text}>
+                    <div className={styles.progressInfo}>
+                        <input type="button" onClick={this.props.onFinish} value="Finish"/>
+                        <ProgressInfo WPM={typingPanelStore.WPM} completionPercent={typingPanelStore.completionPercent}/>
+                        {typingPanelStore.isInProgress && <Timer duration={typingPanelStore.duration}/>}
+                    </div>
                     <div>
                         <TypingProgress
                             currentPosition={typingPanelStore.currentPosition}
@@ -26,15 +32,6 @@ export class TypingPanel extends Component<TypingPanelProps> {
                         </div>
                     </div>
                 </Loader>
-                <div>
-                    <ProgressInfo WPM={typingPanelStore.WPM} completionPercent={typingPanelStore.completionPercent}/>
-                </div>
-                <div>
-                    {typingPanelStore.isInProgress && <Timer duration={typingPanelStore.duration}/>}
-                </div>
-                <div>
-                    <input type="button" onClick={this.props.onFinish} value="Finish"/>
-                </div>
             </Fragment>
         )
     }

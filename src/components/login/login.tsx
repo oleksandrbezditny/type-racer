@@ -1,8 +1,9 @@
-import React, { Component, FormEvent, Fragment } from 'react';
+import React, { Component, FormEvent } from 'react';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { isSomething } from 'utils';
 import { LoginStore } from 'stores';
+import styles from './login.module.scss';
 
 export type LoginProps = Readonly<{
     loginStore: LoginStore;
@@ -17,8 +18,8 @@ export class Login extends Component<LoginProps> {
 
     render() {
         return (
-            <Fragment>
-                <form onSubmit={this.tryLogin}>
+            <div className={styles['form-wrapper']}>
+                <form onSubmit={this.tryLogin} className={styles.form}>
                     <h3>Sign in</h3>
                     <input
                         type="text"
@@ -34,8 +35,8 @@ export class Login extends Component<LoginProps> {
                     />
                     <input type="submit" value="Login" disabled={!this._formIsValid}/>
                 </form>
-                <input type="button" value="Login as guest" onClick={this.useAsGuest}/>
-            </Fragment>
+                <input type="button" value="Login as guest" onClick={this.useAsGuest} className={styles.guest}/>
+            </div>
         );
     }
 
@@ -46,11 +47,11 @@ export class Login extends Component<LoginProps> {
             password: this._passwordRef!.value,
         });
         event.preventDefault();
-    }
+    };
 
     private useAsGuest = () => {
         this.props.loginStore.loginAsGuest();
-    }
+    };
 
     @action
     private validateForm = (): void => {

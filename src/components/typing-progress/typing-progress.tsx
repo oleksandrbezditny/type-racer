@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { emptyString } from 'utils';
 import styles from 'components/typing-progress/typing-progress.module.scss';
 
@@ -17,11 +17,11 @@ export class TypingProgress extends PureComponent<TypingProgressProps> {
             : emptyString;
         const restOfText = text.substring(currentPosition, text.length);
         return (
-            <Fragment>
+            <div className={styles.progress}>
                 <span className={styles.correct}>{correctText}</span>
                 <span className={styles.incorrect}>{incorrectText}</span>
                 <span>{restOfText}</span>
-            </Fragment>
+            </div>
         );
     }
 }

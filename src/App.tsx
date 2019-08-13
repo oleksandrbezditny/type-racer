@@ -6,6 +6,9 @@ import { config } from 'config';
 import { TextProvider, Connection, HistoryProvider, LoginProvider } from 'connections';
 import { TypingPanel, History, Login, Loader } from 'components';
 import { TypingPanelStore, HistoryStore, LoginStore } from 'stores';
+import styles from './app.module.scss';
+
+import 'normalize.css';
 
 @observer
 export class App extends Component {
@@ -27,7 +30,7 @@ export class App extends Component {
 
     render() {
         return (
-            <div className="App">
+            <div className={styles.app}>
                 {this._loginStore.isLoggedIn && (
                     <Fragment>
                         {isSomething(this._typingPanelStore) && (
@@ -37,8 +40,10 @@ export class App extends Component {
                             <input type="button" value="Start" onClick={this.start}/>
                         )}
                         <Loader loading={!isSomething(this._historyStore.history)}>
-                            <History items={this._historyStore.history!}/>
-                            <History items={this._historyStore.userHistory!}/>
+                            <div className={styles.historyWrapper}>
+                                <History items={this._historyStore.history!} title="Top players"/>
+                                <History items={this._historyStore.userHistory!} title="You history"/>
+                            </div>
                         </Loader>
                     </Fragment>
                 )}
@@ -55,7 +60,7 @@ export class App extends Component {
             ),
             config.roundDuration
         );
-    }
+    };
 
     @action
     private finish = () => {
@@ -63,7 +68,7 @@ export class App extends Component {
             // login info should exists in this case
             username: this._loginStore!.loginInfo!.username,
             // typing panel store should exists in this case
-            wpm: this._typingPanelStore!.WPM
+            wpm: this._typingPanelStore!.WPM.toFixed()
         });
         this._typingPanelStore = null;
     }
