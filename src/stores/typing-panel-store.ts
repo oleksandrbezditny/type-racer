@@ -60,6 +60,7 @@ export class TypingPanelStore {
         } else if (this._text[this._lastCorrectPosition] === word) {
             this.updateCurrentPosition(this._currentPosition + 1);
             this.updateLastCorrectPosition(this._lastCorrectPosition + 1);
+            this.updateGameStatus();
         } else {
             this.updateCurrentPosition(this._currentPosition + 1);
         }
@@ -72,6 +73,7 @@ export class TypingPanelStore {
         if (!this.hasWrongRecords()) {
             this.updateCurrentPosition(this._currentPosition - 1);
             this.updateLastCorrectPosition(this._lastCorrectPosition - 1);
+            this.updateGameStatus();
         } else {
             this.updateCurrentPosition(this._currentPosition - 1);
         }
@@ -122,5 +124,12 @@ export class TypingPanelStore {
         this._text = text;
         this._isInProgress = true;
         this._startTime = Date.now();
+    }
+
+    @action
+    private updateGameStatus(): void {
+        if(this._lastCorrectPosition === this.text.length) {
+            this._isInProgress = false;
+        }
     }
 }

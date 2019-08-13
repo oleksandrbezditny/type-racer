@@ -21,16 +21,16 @@ export class TypingPanel extends Component<TypingPanelProps> {
                         <ProgressInfo WPM={typingPanelStore.WPM} completionPercent={typingPanelStore.completionPercent}/>
                         {typingPanelStore.isInProgress && <Timer duration={typingPanelStore.duration}/>}
                     </div>
-                    <div>
-                        <TypingProgress
-                            currentPosition={typingPanelStore.currentPosition}
-                            lastCorrectPosition={typingPanelStore.lastCorrectPosition}
-                            text={typingPanelStore.text}
-                        />
-                        <div>
+                    {typingPanelStore.isInProgress && (
+                        <Fragment>
+                            <TypingProgress
+                                currentPosition={typingPanelStore.currentPosition}
+                                lastCorrectPosition={typingPanelStore.lastCorrectPosition}
+                                text={typingPanelStore.text}
+                            />
                             <TextInput onUserType={typingPanelStore.applyLetter} removeLetter={typingPanelStore.goBack}/>
-                        </div>
-                    </div>
+                        </Fragment>
+                    )}
                 </Loader>
             </Fragment>
         )

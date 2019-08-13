@@ -14,7 +14,7 @@ export class History extends Component<HistoryProps> {
     render() {
         const { items, title } = this.props;
 
-        if(!isSomething(items)) {
+        if (!isSomething(items)) {
             return;
         }
         // key={index} can be replaced to something better
@@ -22,6 +22,7 @@ export class History extends Component<HistoryProps> {
             <div className={styles.history}>
                 <h1>{title}</h1>
                 <table className={styles.table}>
+                    <tbody>
                     <tr>
                         <th>speed</th>
                         <th>user</th>
@@ -39,6 +40,7 @@ export class History extends Component<HistoryProps> {
                             </tr>
                         )
                     })}
+                    </tbody>
                 </table>
             </div>
         );
